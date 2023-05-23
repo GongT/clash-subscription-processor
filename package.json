@@ -16,7 +16,15 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "@idlebox/common": "^1.3.14",
+    "@idlebox/node": "^1.2.12",
+    "@types/js-yaml": "^4.0.5",
+    "@types/sd-notify": "^2.8.0",
     "express": "^4.18.2",
-    "source-map-support": "^0.5.21"
+    "js-yaml": "^4.1.0",
+    "proxy-agent": "^6.2.0",
+    "sd-notify": "^2.8.0",
+    "source-map-support": "^0.5.21",
+    "tslib": "^2.5.2"
   }
 }

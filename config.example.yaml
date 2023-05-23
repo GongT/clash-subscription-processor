@@ -1,0 +1,15 @@
+subscriptions:
+    SomeProvider: https://xxxxxx/subs?xxxx=xxxx
+    AnotherProvider: https://yyyyyy/123123/sub
+
+blacklist:
+    - /官网/
+    - /请更新/
+    - /速度随缘/
+
+server:
+    port: 1234
+
+request:
+    # will try this first, if fail, no proxy is used
+    proxy: http://some-server:8080
