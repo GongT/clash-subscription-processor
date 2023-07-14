@@ -11,7 +11,7 @@ interface IProxy {
 
 export class SubscriptionsLoader {
 	private timer?: NodeJS.Timeout;
-	private readonly proxies: Record<string, IProxy> = {};
+	private proxies: Record<string, IProxy> = {};
 	private readonly blackList: RegExp[] = [];
 
 	constructor(public readonly config: DeepReadonly<IConfigFile>) {
@@ -76,9 +76,12 @@ export class SubscriptionsLoader {
 	private applyConfig(title: string, content: string) {
 		const subFile = load(content) as any;
 		if (!Array.isArray(subFile.proxies)) {
-			throw new Error('配置文件错误: proxies不是数组: ' + title);
+			console.error('配置文件错误: proxies不是数组: ' + title);
+			this.proxies = {};
+			return;
 		}
 
+		this.proxies = {};
 		const proxies: IProxy[] = subFile.proxies;
 		for (const proxy of proxies) {
 			const name = proxy.name;
