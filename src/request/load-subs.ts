@@ -14,32 +14,15 @@ interface IProxyServer {
 export class SubscriptionsLoader {
 	private timer?: NodeJS.Timeout;
 	private subscribes: Record<string /* sub name */, IProxyServer[]> = {};
-	private readonly blackList: RegExp[] = [];
 
-	private readonly defaultTimeout: number;
+	constructor(public readonly config: DeepReadonly<IConfigFile>) {}
 
-	constructor(public readonly config: DeepReadonly<IConfigFile>) {
-		for (const item of config.blacklist) {
-			let r;
-			if (item.startsWith('/')) {
-				const [, pattern, flag] = item.split('/');
-				if (typeof pattern !== 'string' || typeof flag !== 'string') {
-					throw new Error('invalid config: invalid regexp: ' + item);
-				}
-				r = new RegExp(pattern, flag);
-			} else {
-				r = new RegExp(item);
-			}
-			this.blackList.push(r);
-		}
-
-		this.defaultTimeout = config.timer * oneHour;
-
-		console.log('更新间隔: %s 小时', config.timer);
+	private get timeout() {
+		return this.config.timer * oneHour;
 	}
 
 	private hitBlackList(title: string) {
-		for (const r of this.blackList) {
+		for (const r of this.config.blacklist) {
 			if (r.test(title)) return true;
 		}
 		return false;
@@ -52,7 +35,7 @@ export class SubscriptionsLoader {
 		}
 	}
 
-	startTimer(timeout = this.defaultTimeout) {
+	startTimer(timeout = this.timeout) {
 		this.stopTimer();
 
 		this.timer = setTimeout(() => {
@@ -129,7 +112,7 @@ export class SubscriptionsLoader {
 		}
 
 		if (schedule) {
-			this.startTimer(offline ? 0 : this.defaultTimeout);
+			this.startTimer(offline ? 0 : this.timeout);
 		}
 	}
 

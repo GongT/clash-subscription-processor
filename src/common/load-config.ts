@@ -21,7 +21,7 @@ export interface IServerConfig {
 
 export interface IConfigFile {
 	subscriptions: ISubscription[];
-	blacklist: string[];
+	blacklist: RegExp[];
 	server: IServerConfig;
 	request: IRequestConfig;
 	timer: number;
@@ -51,9 +51,10 @@ export function loadConfigFile(file: string): IConfigFile {
 	} else if (timer <= 0) {
 		throw new Error('配置文件 timer 不能小于1');
 	}
+	console.log('更新间隔: %s 小时', timer);
 
 	const result: IConfigFile = {
-		blacklist: r.blacklist,
+		blacklist: compileRegList(r.blacklist),
 		server: r.server || { port: 1234 },
 		subscriptions: [],
 		request: r.request || {},
@@ -69,4 +70,22 @@ export function loadConfigFile(file: string): IConfigFile {
 	}
 
 	return result;
+}
+
+function compileRegList(blacklist: readonly string[]) {
+	const ret: RegExp[] = [];
+	for (const item of blacklist) {
+		let r: RegExp;
+		if (item.startsWith('/')) {
+			const [, pattern, flag] = item.split('/');
+			if (typeof pattern !== 'string' || typeof flag !== 'string') {
+				throw new Error('invalid config: invalid regexp: ' + item);
+			}
+			r = new RegExp(pattern, flag);
+		} else {
+			r = new RegExp(item);
+		}
+		ret.push(r);
+	}
+	return ret;
 }

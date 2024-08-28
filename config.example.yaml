@@ -13,3 +13,5 @@ server:
 request:
     # will try this first, if fail, no proxy is used
     proxy: http://some-server:8080
+
+timer: 6
