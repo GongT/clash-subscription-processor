@@ -1,17 +1,22 @@
+# 此名称自动添加到节点名称前，不建议太长
 subscriptions:
     SomeProvider: https://xxxxxx/subs?xxxx=xxxx
     AnotherProvider: https://yyyyyy/123123/sub
 
+# 过滤掉的节点名称，仅支持正则表达式
 blacklist:
     - /官网/
     - /请更新/
     - /速度随缘/
+    - /wow/i
 
+# reload时server配置修改不会生效，需要重启程序
 server:
     port: 1234
 
+# 如果不设置，或者从代理下载失败，则会尝试一下无代理下载
 request:
-    # will try this first, if fail, no proxy is used
     proxy: http://some-server:8080
 
+# 更新间隔，单位为小时，仅支持整数
 timer: 6
