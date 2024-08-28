@@ -3,6 +3,7 @@ interface IConfigFileYaml {
 	blacklist?: string[];
 	server?: IServerConfig;
 	request?: IRequestConfig;
+	timer?: number | string;
 }
 
 export interface ISubscription {
@@ -23,6 +24,7 @@ export interface IConfigFile {
 	blacklist: string[];
 	server: IServerConfig;
 	request: IRequestConfig;
+	timer: number;
 }
 import { accessSync, constants, readFileSync } from 'fs';
 import { load } from 'js-yaml';
@@ -43,11 +45,19 @@ export function loadConfigFile(file: string): IConfigFile {
 		throw new Error('配置文件缺少subscriptions');
 	}
 
+	let timer = parseInt((r.timer as any) ?? 6);
+	if (isNaN(timer)) {
+		throw new Error('配置文件 timer 不正确');
+	} else if (timer <= 0) {
+		throw new Error('配置文件 timer 不能小于1');
+	}
+
 	const result: IConfigFile = {
 		blacklist: r.blacklist,
 		server: r.server || { port: 1234 },
 		subscriptions: [],
 		request: r.request || {},
+		timer,
 	};
 
 	for (const [title, content] of Object.entries(r.subscriptions)) {

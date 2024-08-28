@@ -1,1 +1,35 @@
-../node_modules/@build-script/single-dog-asset/package/vscode/settings.json
+{
+	"files.associations": {
+		"*.json": "jsonc"
+	},
+	"search.exclude": {
+		"common/temp": true,
+		"**/node_modules/**/*": true,
+		"*/*/lib": true,
+		"*/*/.rush": true,
+		"**/*.api.json": true,
+		"**/*.api.md": true,
+		"**/package-public.d.ts": true
+	},
+	"prettier.prettierPath": "./node_modules/prettier",
+	"prettier.requireConfig": true,
+	"typescript.tsdk": "./node_modules/typescript/lib",
+	"[json]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[json5]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[jacascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	}
+}

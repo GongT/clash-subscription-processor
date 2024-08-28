@@ -16,10 +16,12 @@ RequiredBy=clash.service
 
 [Service]
 ExecStart=/usr/nodejs/bin/node "$(pwd)/lib/entry.js"
-Type=notify
+Type=notify-reload
 Environment="NODE_ENV=production"
 TimeoutStartSec=30
 Restart=always
+CacheDirectory=clash-subs
+ReloadSignal=SIGHUP
 EOF
 
 systemctl daemon-reload
